@@ -72,6 +72,10 @@ public class User {
                 '}';
     }
 
+    public boolean equals(String email) {
+        return this.email.equals(email);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

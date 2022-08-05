@@ -7,13 +7,13 @@ public class Comment {
     int userId;
     String title;
     String comment;
-    int rating;
+    short rating;
 
     public Comment() {
         super();
     }
 
-    public Comment(int id, int userId, String title, String comment, int rating) {
+    public Comment(int id, int userId, String title, String comment, short rating) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -53,11 +53,11 @@ public class Comment {
         this.comment = comment;
     }
 
-    public int getRating() {
+    public short getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(short rating) {
         this.rating = rating;
     }
 
