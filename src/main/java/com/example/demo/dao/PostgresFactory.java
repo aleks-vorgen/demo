@@ -1,9 +1,14 @@
 package com.example.demo.dao;
 
+import com.example.demo.dao.category.DAOCategory;
 import com.example.demo.dao.category.DAOCategoryImpl;
+import com.example.demo.dao.comment.DAOComment;
 import com.example.demo.dao.comment.DAOCommentImpl;
+import com.example.demo.dao.order.DAOOrder;
 import com.example.demo.dao.order.DAOOrderImpl;
+import com.example.demo.dao.product.DAOProduct;
 import com.example.demo.dao.product.DAOProductImpl;
+import com.example.demo.dao.user.DAOUser;
 import com.example.demo.dao.user.DAOUserImpl;
 import org.apache.log4j.Logger;
 
@@ -48,14 +53,23 @@ public class PostgresFactory {
         }
     }
 
-    public DAOAccess getDAO(DAOTypes type) {
-        switch (type) {
-            case CATEGORY: return new DAOCategoryImpl();
-            case COMMENT: return new DAOCommentImpl();
-            case ORDER: return new DAOOrderImpl();
-            case PRODUCT: return new DAOProductImpl();
-            case USER: return new DAOUserImpl();
-            default: return null;
-        }
+    public DAOCategory getCategoryDAO() {
+        return new DAOCategoryImpl();
+    }
+
+    public DAOComment getCommentDAO() {
+        return new DAOCommentImpl();
+    }
+
+    public DAOOrder getOrderDAO() {
+        return new DAOOrderImpl();
+    }
+
+    public DAOProduct getProductDAO() {
+        return new DAOProductImpl();
+    }
+
+    public DAOUser getUserDAO() {
+        return new DAOUserImpl();
     }
 }
