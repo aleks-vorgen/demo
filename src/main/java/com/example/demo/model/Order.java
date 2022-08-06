@@ -5,17 +5,15 @@ import java.util.Objects;
 public class Order {
     int id;
     int userId;
-    int orderId;
     int productId;
 
     public Order() {
         super();
     }
 
-    public Order(int id, int userId, int orderId, int productId) {
+    public Order(int id, int userId, int productId) {
         this.id = id;
         this.userId = userId;
-        this.orderId = orderId;
         this.productId = productId;
     }
 
@@ -35,14 +33,6 @@ public class Order {
         this.userId = userId;
     }
 
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
     public int getProductId() {
         return productId;
     }
@@ -56,7 +46,6 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", orderId=" + orderId +
                 ", productId=" + productId +
                 '}';
     }
@@ -66,11 +55,11 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id && userId == order.userId && orderId == order.orderId && productId == order.productId;
+        return id == order.id && userId == order.userId && productId == order.productId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, orderId, productId);
+        return Objects.hash(id, userId, productId);
     }
 }
