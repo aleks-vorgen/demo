@@ -4,12 +4,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.sql.DataSource;
 
+@Configuration
 @SpringBootApplication(scanBasePackages = "com.example.demo")
 public class DemoApplication extends SpringBootServletInitializer {
 
@@ -18,13 +25,20 @@ public class DemoApplication extends SpringBootServletInitializer {
 		return builder.sources(DemoApplication.class);
 	}
 
-	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
-		super.onStartup(servletContext);
-		FilterRegistration charEncodingFilterReg = servletContext.addFilter("CharacterEncodingFilter", CharacterEncodingFilter.class);
-		charEncodingFilterReg.setInitParameter("encoding", "UTF-8");
-		charEncodingFilterReg.setInitParameter("forceEncoding", "true");
-		charEncodingFilterReg.addMappingForUrlPatterns(null, false, "/*");
+	@Bean
+	public DataSource dataSource() {
+		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
+		dataSource.setUsername("postgres");
+		dataSource.setPassword("0000");
+
+		return dataSource;
+	}
+
+	@Bean
+	public JdbcTemplate jgbcTemplate() {
+		return new JdbcTemplate(dataSource());
 	}
 
 	public static void main(String[] args) {
