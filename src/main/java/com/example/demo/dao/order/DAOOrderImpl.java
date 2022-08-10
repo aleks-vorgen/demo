@@ -1,6 +1,6 @@
+/*
 package com.example.demo.dao.order;
 
-import com.example.demo.dao.PostgresFactory;
 import com.example.demo.model.Order;
 import org.apache.log4j.Logger;
 
@@ -111,3 +111,4 @@ public class DAOOrderImpl implements DAOOrder {
         return order;
     }
 }
+*/

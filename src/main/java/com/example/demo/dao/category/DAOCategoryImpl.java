@@ -1,6 +1,6 @@
+/*
 package com.example.demo.dao.category;
 
-import com.example.demo.dao.PostgresFactory;
 import com.example.demo.model.Category;
 import org.apache.log4j.Logger;
 
@@ -134,3 +134,4 @@ public class DAOCategoryImpl implements DAOCategory {
         return category;
     }
 }
+*/

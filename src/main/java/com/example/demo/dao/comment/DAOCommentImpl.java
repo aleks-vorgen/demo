@@ -1,6 +1,6 @@
+/*
 package com.example.demo.dao.comment;
 
-import com.example.demo.dao.PostgresFactory;
 import com.example.demo.model.Comment;
 import org.apache.log4j.Logger;
 
@@ -141,3 +141,4 @@ public class DAOCommentImpl implements DAOComment {
         return comment;
     }
 }
+*/
