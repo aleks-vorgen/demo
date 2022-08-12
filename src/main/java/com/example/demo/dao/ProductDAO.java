@@ -21,11 +21,11 @@ public class ProductDAO {
 
     private static final String INSERT_PRODUCT =
             "INSERT INTO lab3_ko_products" +
-            " VALUES (?, ?, ?, ?, ?, ?, ?)";
+            " VALUES (default, ?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE_PRODUCT =
             "UPDATE lab3_ko_products" +
-            " SET id = ?, category_id = ?, title = ?, price = ?," +
+            " SET category_id = ?, title = ?, price = ?," +
                 " amount = ?, description = ?, img_path = ?" +
             " WHERE id = ?";
 
@@ -54,14 +54,14 @@ public class ProductDAO {
 
     public void insertProduct(Product product) {
         jdbcTemplate.update(INSERT_PRODUCT,
-                product.getId(), product.getCategoryId(), product.getTitle(),
+                product.getCategoryId(), product.getTitle(),
                 product.getPrice(), product.getAmount(), product.getDescription(),
                 product.getImgPath());
     }
 
     public void updateProduct(Product product) {
         jdbcTemplate.update(UPDATE_PRODUCT,
-                product.getId(), product.getCategoryId(), product.getTitle(),
+                product.getCategoryId(), product.getTitle(),
                 product.getPrice(), product.getAmount(), product.getDescription(),
                 product.getImgPath(), product.getId());
     }

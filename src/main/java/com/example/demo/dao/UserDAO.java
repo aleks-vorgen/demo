@@ -26,11 +26,11 @@ public class UserDAO {
 
     private static final String INSERT_USER =
             "INSERT INTO lab3_ko_users" +
-            " VALUES (?, ?, ?, ?, ?)";
+            " VALUES (default, ?, ?, ?, ?)";
 
     private static final String UPDATE_USER =
             "UPDATE lab3_ko_users" +
-            " SET id = ?, username = ?, email = ?," +
+            " SET username = ?, email = ?," +
             " password = ?, permissions = ?" +
             " WHERE id = ?";
 
@@ -64,14 +64,14 @@ public class UserDAO {
 
     public void insertUser(User user) {
         jdbcTemplate.update(INSERT_USER,
-                user.getId(), user.getUsername(), user.getEmail(),
+                user.getUsername(), user.getEmail(),
                 user.getPassword(), user.isPermissions());
     }
 
 
     public void updateUser(User user) {
         jdbcTemplate.update(UPDATE_USER,
-                user.getId(), user.getUsername(), user.getEmail(),
+                user.getUsername(), user.getEmail(),
                 user.getPassword(), user.isPermissions(), user.getId());
     }
 
