@@ -14,7 +14,7 @@
         </li>
         <li class="nav-item">
           <c:if test="${user.permissions == true}">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/products/admin/viewAllProducts" tabindex="-1" aria-disabled="true">Admin panel</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/admin/viewAdminPanel" tabindex="-1" aria-disabled="true">Admin panel</a>
           </c:if>
         </li>
         <li class="nav-item">
