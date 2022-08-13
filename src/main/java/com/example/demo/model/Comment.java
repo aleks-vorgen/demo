@@ -9,16 +9,19 @@ public class Comment {
     String comment;
     short rating;
 
+    int productId;
+
     public Comment() {
         super();
     }
 
-    public Comment(int id, int userId, String title, String comment, short rating) {
+    public Comment(int id, int userId, String title, String comment, short rating, int productId) {
         this.id = id;
         this.userId = userId;
         this.title = title;
         this.comment = comment;
         this.rating = rating;
+        this.productId = productId;
     }
 
     public int getId() {
@@ -61,6 +64,14 @@ public class Comment {
         this.rating = rating;
     }
 
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -69,6 +80,7 @@ public class Comment {
                 ", title='" + title + '\'' +
                 ", comment='" + comment + '\'' +
                 ", rating=" + rating +
+                ", productId=" + productId +
                 '}';
     }
 
@@ -77,11 +89,11 @@ public class Comment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment1 = (Comment) o;
-        return id == comment1.id && userId == comment1.userId && rating == comment1.rating && Objects.equals(title, comment1.title) && Objects.equals(comment, comment1.comment);
+        return id == comment1.id && userId == comment1.userId && rating == comment1.rating && productId == comment1.productId && Objects.equals(title, comment1.title) && Objects.equals(comment, comment1.comment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, title, comment, rating);
+        return Objects.hash(id, userId, title, comment, rating, productId);
     }
 }
