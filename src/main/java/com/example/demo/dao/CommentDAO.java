@@ -16,10 +16,10 @@ public class CommentDAO {
             " FROM lab3_ko_comments";
 
     private static final String GET_COMMENT_LIST_FOR_VIEW =
-            "SELECT c.id, c.title, c.comment, u.username, p.title" +
+            "SELECT c.id as id, c.title as title, c.comment as comment, c.rating as rating, u.username as username" +
             " FROM lab3_ko_comments c" +
-            " JOIN lab3_ko_users u ON c.user_id = u.id" +
-            " JOIN lab3_ko_products p ON c.product_id = p.id" +
+            " LEFT JOIN lab3_ko_users u ON c.user_id = u.id" +
+            " LEFT JOIN lab3_ko_products p ON c.product_id = p.id" +
             " WHERE p.id = ?";
 
     private static final String GET_COMMENT =
