@@ -34,6 +34,24 @@
         </div>
     </div>
 </div>
+<c:if test="${commentList != null}">
+<div class="row">
+    <div class="col-10">
+        <c:forEach items="commentList" var="comment">
+            <div class="card mb-3">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                        ${comment.comment}
+                </div>
+                <div class="card-footer">
+                        ${comment.username}
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+</div>
+</c:if>
 
 <script>
     $(document).ready(function () {
