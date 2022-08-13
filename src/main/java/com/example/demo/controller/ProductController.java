@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dao.CommentDAO;
 import com.example.demo.dao.ProductDAO;
 import com.example.demo.model.Product;
 import com.example.demo.model.User;
@@ -14,9 +15,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductDAO productDAO;
+    private final CommentDAO commentDAO;
     @Autowired
-    public ProductController(ProductDAO productDAO) {
+    public ProductController(ProductDAO productDAO, CommentDAO commentDAO) {
         this.productDAO = productDAO;
+        this.commentDAO = commentDAO;
     }
 
     @GetMapping("/viewAllProducts")
@@ -35,6 +38,8 @@ public class ProductController {
     public String viewProduct(@PathVariable("id") int id, Model model) {
         model.addAttribute("title", "Информация про товар");
         model.addAttribute("product", productDAO.getProduct(id));
+        model.addAttribute("commentList", commentDAO.getCommentListForView(id));
+        System.out.println(commentDAO.getCommentListForView(id));
 
         return "productInfo";
     }
