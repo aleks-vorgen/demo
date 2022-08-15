@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.shop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +15,7 @@ import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
 
 @Configuration
-@SpringBootApplication(scanBasePackages = "com.example.demo")
+@SpringBootApplication(scanBasePackages = "com.example.shop")
 public class DemoApplication extends SpringBootServletInitializer {
 
 	@Override

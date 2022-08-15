@@ -1,9 +1,7 @@
-package com.example.demo.controller;
+package com.example.shop.controller;
 
-import com.example.demo.dao.CommentDAO;
-import com.example.demo.dao.ProductDAO;
-import com.example.demo.model.Product;
-import com.example.demo.model.User;
+import com.example.shop.dao.CommentDAO;
+import com.example.shop.dao.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

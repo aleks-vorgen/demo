@@ -1,8 +1,7 @@
-package com.example.demo.controller;
+package com.example.shop.controller;
 
-import com.example.demo.dao.*;
-import com.example.demo.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.shop.dao.*;
+import com.example.shop.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
-package com.example.demo.dao;
+package com.example.shop.dao;
 
-import com.example.demo.model.Product;
+import com.example.shop.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -22,7 +22,7 @@
         </layout>
     </appender>
 
-    <category name="com.example.demo">
+    <category name="com.example.shop">
         <!--all, trace, debug, info, warn, error, fatal-->
         <priority value="error"/>
         <appender-ref ref="fileAppender"/>

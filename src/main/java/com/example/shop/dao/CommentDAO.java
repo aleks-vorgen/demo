@@ -1,7 +1,6 @@
-package com.example.demo.dao;
+package com.example.shop.dao;
 
-import com.example.demo.model.Category;
-import com.example.demo.model.Comment;
+import com.example.shop.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,8 +18,7 @@ public class CommentDAO {
             "SELECT c.id as id, c.title as title, c.comment as comment, c.rating as rating, u.username as username" +
             " FROM lab3_ko_comments c" +
             " LEFT JOIN lab3_ko_users u ON c.user_id = u.id" +
-            " LEFT JOIN lab3_ko_products p ON c.product_id = p.id" +
-            " WHERE p.id = ?";
+            " WHERE product_id = ?";
 
     private static final String GET_COMMENT =
             "SELECT *" +
@@ -58,7 +56,6 @@ public class CommentDAO {
     public List<Comment> getCommentListForView(int id) {
         BeanPropertyRowMapper<Comment> prm = new BeanPropertyRowMapper<>(Comment.class);
         prm.setPrimitivesDefaultedForNullValue(true);
-
         return jdbcTemplate.query(GET_COMMENT_LIST_FOR_VIEW, prm, id);
     }
 

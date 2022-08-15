@@ -27,29 +27,31 @@
                 В наличии: ${product.amount}
             </div>
         </div>
+    </div>
+</div>
+<c:if test="${commentList != null}">
+<div class="row" style="width: 100%">
+    <div class="col-6">
+        <h2>Описание</h2>
         <div class="card mb-3">
             <div class="card-body">
                 ${product.description}
             </div>
         </div>
     </div>
-</div>
-<c:if test="${commentList != null}">
-<div class="row">
-    <div class="col-10">
-        <c:forEach items="commentList" var="comment">
-            <div class="card mb-3">
-                <div class="card-header">
-                </div>
-                <div class="card-body">
+        <div class="col-6">
+            <h2>Комментарии</h2>
+            <c:forEach items="${commentList}" var="comment">
+                <div class="card mb-3">
+                    <div class="card-body">
                         ${comment.comment}
+                    </div>
+                    <div class="card-footer">
+                        ${comment.userId}
+                    </div>
                 </div>
-                <div class="card-footer">
-                        ${comment.username}
-                </div>
-            </div>
-        </c:forEach>
-    </div>
+            </c:forEach>
+        </div>
 </div>
 </c:if>
 

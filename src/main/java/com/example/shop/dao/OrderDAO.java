@@ -1,7 +1,7 @@
-package com.example.demo.dao;
+package com.example.shop.dao;
 
-import com.example.demo.model.Category;
-import com.example.demo.model.Order;
+import com.example.shop.model.Category;
+import com.example.shop.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;

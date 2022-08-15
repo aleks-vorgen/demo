@@ -1,4 +1,4 @@
-<%@ page import="com.example.demo.model.User" %>
+<%@ page import="com.example.shop.model.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="header.jsp"/>
 

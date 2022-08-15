@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.shop.model;
 
 import java.util.Objects;
 
