@@ -4,17 +4,17 @@ import java.util.Objects;
 
 public class Order {
     int id;
-    int userId;
-    int productId;
+    User user;
+    Product product;
 
     public Order() {
         super();
     }
 
-    public Order(int id, int userId, int productId) {
+    public Order(int id, User user, Product product) {
         this.id = id;
-        this.userId = userId;
-        this.productId = productId;
+        this.user = user;
+        this.product = product;
     }
 
     public int getId() {
@@ -25,28 +25,28 @@ public class Order {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", productId=" + productId +
+                ", user=" + user +
+                ", product=" + product +
                 '}';
     }
 
@@ -55,11 +55,11 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id && userId == order.userId && productId == order.productId;
+        return id == order.id && Objects.equals(user, order.user) && Objects.equals(product, order.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, productId);
+        return Objects.hash(id, user, product);
     }
 }

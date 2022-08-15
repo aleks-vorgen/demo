@@ -4,24 +4,23 @@ import java.util.Objects;
 
 public class Comment {
     int id;
-    int userId;
+    User user;
     String title;
     String comment;
     short rating;
-
-    int productId;
+    Product product;
 
     public Comment() {
         super();
     }
 
-    public Comment(int id, int userId, String title, String comment, short rating, int productId) {
+    public Comment(int id, User user, String title, String comment, short rating, Product product) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.title = title;
         this.comment = comment;
         this.rating = rating;
-        this.productId = productId;
+        this.product = product;
     }
 
     public int getId() {
@@ -32,12 +31,12 @@ public class Comment {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getTitle() {
@@ -64,23 +63,23 @@ public class Comment {
         this.rating = rating;
     }
 
-    public int getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", user=" + user +
                 ", title='" + title + '\'' +
                 ", comment='" + comment + '\'' +
                 ", rating=" + rating +
-                ", productId=" + productId +
+                ", product=" + product +
                 '}';
     }
 
@@ -89,11 +88,11 @@ public class Comment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment1 = (Comment) o;
-        return id == comment1.id && userId == comment1.userId && rating == comment1.rating && productId == comment1.productId && Objects.equals(title, comment1.title) && Objects.equals(comment, comment1.comment);
+        return id == comment1.id && rating == comment1.rating && Objects.equals(user, comment1.user) && Objects.equals(title, comment1.title) && Objects.equals(comment, comment1.comment) && Objects.equals(product, comment1.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, title, comment, rating, productId);
+        return Objects.hash(id, user, title, comment, rating, product);
     }
 }
