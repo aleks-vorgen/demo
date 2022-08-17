@@ -1,5 +1,6 @@
 package com.example.shop.dao;
 
+import com.example.shop.dao.mapper.OrderMapper;
 import com.example.shop.model.Category;
 import com.example.shop.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,13 @@ import java.util.List;
 @Component
 public class OrderDAO {
     private static final String GET_ORDER_LIST =
-            "SELECT *" +
-            " FROM lab3_ko_orders";
+            "SELECT o.*, u.id as u_id, u.username, u.email, p.id as p_id, p.title, p.price, p.img_path" +
+            " FROM lab3_ko_orders o" +
+            " JOIN lab3_ko_users u ON o.user_id = u.id" +
+            " JOIN lab3_ko_products p ON o.product_id = p.id";
 
     private static final String GET_ORDER =
-            "SELECT *" +
-            " FROM lab3_ko_orders" +
-            " WHERE id = ?";
+            GET_ORDER_LIST + " WHERE o.id = ?";
 
     private static final String INSERT_ORDER =
             "INSERT INTO lab3_ko_orders" +
@@ -39,10 +40,10 @@ public class OrderDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Category> getOrderList() {
+    public List<Order> getOrderList() {
 
         return jdbcTemplate.query(GET_ORDER_LIST,
-                new BeanPropertyRowMapper<>(Category.class));
+                new OrderMapper());
     }
 
     public Order getOrder(int id) {
@@ -61,7 +62,7 @@ public class OrderDAO {
                 order.getUserId(), order.getProductId(), order.getId());
     }
 
-    public void deleteCategory(int id) {
+    public void deleteOrder(int id) {
         jdbcTemplate.update(DELETE_ORDER, id);
     }
 }

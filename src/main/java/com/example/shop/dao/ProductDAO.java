@@ -1,5 +1,6 @@
 package com.example.shop.dao;
 
+import com.example.shop.dao.mapper.ProductMapper;
 import com.example.shop.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -11,13 +12,12 @@ import java.util.List;
 @Component
 public class ProductDAO {
     private static final String GET_PRODUCT_LIST =
-            "SELECT *" +
-            " FROM lab3_ko_products";
+            "SELECT p.*, c.id as c_id, c.title as c_title" +
+            " FROM lab3_ko_products p" +
+            " JOIN lab3_ko_categories c ON p.category_id = c.id";
 
     private static final String GET_PRODUCT =
-            "SELECT *" +
-            " FROM lab3_ko_products" +
-            " WHERE id = ?";
+            GET_PRODUCT_LIST + " WHERE p.id = ?";
 
     private static final String INSERT_PRODUCT =
             "INSERT INTO lab3_ko_products" +
@@ -43,12 +43,12 @@ public class ProductDAO {
     public List<Product> getProductList() {
 
         return jdbcTemplate.query(GET_PRODUCT_LIST,
-                new BeanPropertyRowMapper<>(Product.class));
+                new ProductMapper());
     }
 
     public Product getProduct(int id) {
         return jdbcTemplate.query(GET_PRODUCT,
-                new BeanPropertyRowMapper<>(Product.class), new Object[]{id})
+                new ProductMapper(), new Object[]{id})
                 .stream().findAny().orElse(null);
     }
 

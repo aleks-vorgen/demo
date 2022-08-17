@@ -1,5 +1,6 @@
 package com.example.shop.dao;
 
+import com.example.shop.dao.mapper.UserMapper;
 import com.example.shop.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -11,18 +12,14 @@ import java.util.List;
 @Component
 public class UserDAO {
     private static final String GET_USER_LIST =
-            "SELECT *" +
+            "SELECT id, username, email, permissions" +
             " FROM lab3_ko_users";
 
     private static final String GET_USER =
-            "SELECT *" +
-            " FROM lab3_ko_users" +
-            " WHERE id = ?";
+            "SELECT * FROM lab3_ko_users WHERE id = ?";
 
     private static final String GET_USER_BY_EMAIL =
-            "SELECT *" +
-            " FROM lab3_ko_users" +
-            " WHERE email = ?";
+            "SELECT * FROM lab3_ko_users WHERE email = ?";
 
     private static final String INSERT_USER =
             "INSERT INTO lab3_ko_users" +
@@ -46,19 +43,18 @@ public class UserDAO {
     }
 
     public List<User> getUserList() {
-        return jdbcTemplate.query(GET_USER_LIST,
-                new BeanPropertyRowMapper<>(User.class));
+        return jdbcTemplate.query(GET_USER_LIST, new UserMapper());
     }
 
     public User getUser(int id) {
         return jdbcTemplate.query(GET_USER,
-                        new BeanPropertyRowMapper<>(User.class), new Object[]{id})
+                        new UserMapper(), new Object[]{id})
                 .stream().findAny().orElse(null);
     }
 
     public User getUser(String email) {
         return jdbcTemplate.query(GET_USER_BY_EMAIL,
-                new BeanPropertyRowMapper<>(User.class), new Object[]{email})
+                new UserMapper(), new Object[]{email})
                 .stream().findAny().orElse(null);
     }
 

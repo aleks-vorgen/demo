@@ -1,5 +1,6 @@
 package com.example.shop.dao;
 
+import com.example.shop.dao.mapper.CategoryMapper;
 import com.example.shop.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -10,19 +11,14 @@ import java.util.List;
 
 @Component
 public class CategoryDAO {
-    private static final String GET_CATEGORY_LIST =
-            "SELECT *" +
-            " FROM lab3_ko_categories";
 
-    private static final String GET_CATEGORY_LIST_FOR_SELECT =
-            "SELECT id, title" +
-            " FROM lab3_ko_categories" +
-            " ORDER BY parent_category_id";
+    private static final String GET_CATEGORY_LIST =
+            "SELECT parent.*, child.id as c_id, child.title as c_title" +
+            " FROM lab3_ko_categories parent" +
+            " LEFT OUTER JOIN lab3_ko_categories child ON parent.parent_id = child.id";
 
     private static final String GET_CATEGORY =
-            "SELECT *" +
-            " FROM lab3_ko_categories" +
-            " WHERE id = ?";
+            GET_CATEGORY_LIST + " WHERE parent.id = ?";
 
     private static final String INSERT_CATEGORY =
             "INSERT INTO lab3_ko_categories" +
@@ -30,7 +26,7 @@ public class CategoryDAO {
 
     private static final String UPDATE_CATEGORY =
             "UPDATE lab3_ko_categories" +
-            " SET parent_category_id = ?, title = ?" +
+            " SET parent_id = ?, title = ?" +
             " WHERE id = ?";
 
     private static final String DELETE_CATEGORY =
@@ -44,36 +40,28 @@ public class CategoryDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
     public List<Category> getCategoryList() {
-        BeanPropertyRowMapper<Category> prm = new BeanPropertyRowMapper<>(Category.class);
-        prm.setPrimitivesDefaultedForNullValue(true);
 
-        return jdbcTemplate.query(GET_CATEGORY_LIST, prm);
-    }
-
-    public List<Category> getCategoryListForSelect() {
-        BeanPropertyRowMapper<Category> prm = new BeanPropertyRowMapper<>(Category.class);
-        prm.setPrimitivesDefaultedForNullValue(true);
-
-        return jdbcTemplate.query(GET_CATEGORY_LIST_FOR_SELECT, prm);
+        return jdbcTemplate.query(GET_CATEGORY_LIST, new CategoryMapper());
     }
 
     public Category getCategory(int id) {
-        BeanPropertyRowMapper<Category> prm = new BeanPropertyRowMapper<>(Category.class);
-        prm.setPrimitivesDefaultedForNullValue(true);
 
-        return jdbcTemplate.query(GET_CATEGORY, prm, new Object[]{id})
+        return jdbcTemplate.query(GET_CATEGORY, new CategoryMapper(), new Object[]{id})
                 .stream().findAny().orElse(null);
     }
 
     public void insertCategory(Category category) {
         jdbcTemplate.update(INSERT_CATEGORY,
-                category.getParentCategoryId(), category.getTitle());
+                category.getParentCategoryId() == 0 ? null : category.getParentCategoryId(),
+                category.getTitle());
     }
 
     public void updateCategory(Category category) {
         jdbcTemplate.update(UPDATE_CATEGORY,
-                category.getParentCategoryId(), category.getTitle(), category.getId());
+                category.getParentCategoryId() == 0 ? null : category.getParentCategoryId(),
+                category.getTitle(), category.getId());
     }
 
     public void deleteCategory(int id) {
