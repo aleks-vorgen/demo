@@ -5,22 +5,26 @@ import java.util.Objects;
 public class Comment {
     int id;
     User user;
+    int userId;
     String title;
     String comment;
     short rating;
     Product product;
+    int productId;
 
     public Comment() {
         super();
     }
 
-    public Comment(int id, User user, String title, String comment, short rating, Product product) {
+    public Comment(int id, User user, int userId, String title, String comment, short rating, Product product, int productId) {
         this.id = id;
         this.user = user;
+        this.userId = userId;
         this.title = title;
         this.comment = comment;
         this.rating = rating;
         this.product = product;
+        this.productId = productId;
     }
 
     public int getId() {
@@ -37,6 +41,14 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -71,15 +83,25 @@ public class Comment {
         this.product = product;
     }
 
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "id=" + id +
                 ", user=" + user +
+                ", userId=" + userId +
                 ", title='" + title + '\'' +
                 ", comment='" + comment + '\'' +
                 ", rating=" + rating +
                 ", product=" + product +
+                ", productId=" + productId +
                 '}';
     }
 
@@ -88,11 +110,11 @@ public class Comment {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Comment comment1 = (Comment) o;
-        return id == comment1.id && rating == comment1.rating && Objects.equals(user, comment1.user) && Objects.equals(title, comment1.title) && Objects.equals(comment, comment1.comment) && Objects.equals(product, comment1.product);
+        return id == comment1.id && userId == comment1.userId && rating == comment1.rating && productId == comment1.productId && Objects.equals(user, comment1.user) && Objects.equals(title, comment1.title) && Objects.equals(comment, comment1.comment) && Objects.equals(product, comment1.product);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user, title, comment, rating, product);
+        return Objects.hash(id, user, userId, title, comment, rating, product, productId);
     }
 }

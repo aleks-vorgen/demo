@@ -5,15 +5,17 @@ import java.util.Objects;
 public class Category {
     int id;
     Category parentCategory;
+    int parentCategoryId;
     String title;
 
     public Category() {
         super();
     }
 
-    public Category(int id, Category parentCategory, String title) {
+    public Category(int id, Category parentCategory, int parentCategoryId, String title) {
         this.id = id;
         this.parentCategory = parentCategory;
+        this.parentCategoryId = parentCategoryId;
         this.title = title;
     }
 
@@ -33,6 +35,14 @@ public class Category {
         this.parentCategory = parentCategory;
     }
 
+    public int getParentCategoryId() {
+        return parentCategoryId;
+    }
+
+    public void setParentCategoryId(int parentCategoryId) {
+        this.parentCategoryId = parentCategoryId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -46,6 +56,7 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", parentCategory=" + parentCategory +
+                ", parentCategoryId=" + parentCategoryId +
                 ", title='" + title + '\'' +
                 '}';
     }
@@ -55,11 +66,11 @@ public class Category {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return id == category.id && Objects.equals(parentCategory, category.parentCategory) && Objects.equals(title, category.title);
+        return id == category.id && parentCategoryId == category.parentCategoryId && Objects.equals(parentCategory, category.parentCategory) && Objects.equals(title, category.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, parentCategory, title);
+        return Objects.hash(id, parentCategory, parentCategoryId, title);
     }
 }

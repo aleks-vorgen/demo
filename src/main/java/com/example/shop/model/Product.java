@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class Product {
     int id;
+    Category category;
     int categoryId;
     String title;
     BigDecimal price;
@@ -16,9 +17,10 @@ public class Product {
         super();
     }
 
-    public Product(int id, int categoryId, String title, BigDecimal price, int amount, String description, String imgPath) {
+    public Product(int id, Category category, int categoryId, String title, BigDecimal price, int amount, String description, String imgPath) {
         this.id = id;
         this.categoryId = categoryId;
+        this.category = category;
         this.title = title;
         this.price = price;
         this.amount = amount;
@@ -32,6 +34,14 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public int getCategoryId() {
@@ -86,6 +96,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
+                ", category=" + category +
                 ", categoryId=" + categoryId +
                 ", title='" + title + '\'' +
                 ", price=" + price +
@@ -100,11 +111,11 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.id && categoryId == product.categoryId && amount == product.amount && Objects.equals(title, product.title) && Objects.equals(price, product.price) && Objects.equals(description, product.description) && Objects.equals(imgPath, product.imgPath);
+        return id == product.id && categoryId == product.categoryId && amount == product.amount && Objects.equals(category, product.category) && Objects.equals(title, product.title) && Objects.equals(price, product.price) && Objects.equals(description, product.description) && Objects.equals(imgPath, product.imgPath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, categoryId, title, price, amount, description, imgPath);
+        return Objects.hash(id, category, categoryId, title, price, amount, description, imgPath);
     }
 }
