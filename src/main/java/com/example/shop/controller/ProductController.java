@@ -36,8 +36,7 @@ public class ProductController {
     public String viewProduct(@PathVariable("id") int id, Model model) {
         model.addAttribute("title", "Информация про товар");
         model.addAttribute("product", productDAO.getProduct(id));
-        model.addAttribute("commentList", commentDAO.getCommentListForView(id));
-        System.out.println(commentDAO.getCommentListForView(id));
+        model.addAttribute("commentList", commentDAO.getCommentListByProductId(id));
 
         return "productInfo";
     }

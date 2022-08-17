@@ -31,6 +31,7 @@ public class UserController {
     @GetMapping("/viewRegister")
     public ModelAndView viewRegister(@ModelAttribute("user") User user, Model model) {
         model.addAttribute("title", "Registration");
+
         return new ModelAndView("register", "command", user);
     }
 
@@ -38,21 +39,28 @@ public class UserController {
     public String login(@ModelAttribute("user") User user, HttpServletRequest request) {
         User loggedUser = userDAO.getUser(user.getEmail());
         if (loggedUser == null || !loggedUser.getPassword().equals(user.getPassword())) {
-            request.getSession().setAttribute("error", true);
+            request.getSession().setAttribute("logError", true);
             return "redirect:/users/viewLogin";
         }
         else {
-            request.getSession().removeAttribute("error");
+            request.getSession().removeAttribute("logError");
             request.getSession().setAttribute("user", loggedUser);
             return "redirect:/";
         }
     }
 
     @PostMapping("/register")
-    public String create(@ModelAttribute("user") User user, HttpSession session) {
-        userDAO.insertUser(user);
-        session.setAttribute("user", userDAO.getUser(user.getEmail()));
-        return "redirect:/";
+    public String create(@ModelAttribute("user") User user, HttpServletRequest request) {
+        if (userDAO.getUser(user.getEmail()) != null) {
+            request.getSession().setAttribute("regError", true);
+            return "redirect:/users/viewRegister";
+        }
+        else {
+            userDAO.insertUser(user);
+            request.getSession().removeAttribute("regError");
+            request.getSession().setAttribute("user", userDAO.getUser(user.getEmail()));
+            return "redirect:/";
+        }
     }
 
     @GetMapping("/logout")
