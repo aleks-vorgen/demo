@@ -33,21 +33,16 @@
 <div class="row" style="width: 100%">
     <div class="col-6">
         <h2>Описание</h2>
-        <div class="card mb-3">
-            <div class="card-body">
-                ${product.description}
-            </div>
-        </div>
+        <p>${product.description}</p>
     </div>
         <div class="col-6">
             <h2>Комментарии</h2>
             <c:forEach items="${commentList}" var="comment">
                 <div class="card mb-3">
                     <div class="card-body">
-                        ${comment.comment}
-                    </div>
-                    <div class="card-footer">
-                        ${comment.userId}
+                        <h5>${comment.title}</h5>
+                        <p>${comment.comment}</p>
+                        <p class="text-end">${comment.user.username}, ${comment.rating}</p>
                     </div>
                 </div>
             </c:forEach>

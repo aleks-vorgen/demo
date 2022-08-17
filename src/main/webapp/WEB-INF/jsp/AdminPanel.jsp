@@ -27,7 +27,7 @@
     </li>
 </ul>
 
-<div class="tab-content" id="myTabContent">
+<div class="tab-content" id="myTabContent" style="width: 90%">
     <div class="tab-pane fade show active" id="product-list" role="tabpanel" aria-labelledby="product-list-tab">
         <table class="table table-responsive">
             <thead>
@@ -46,7 +46,7 @@
             <c:forEach items="${productList}" var="product">
             <tr>
                 <td>${product.id}</td>
-                <td>${product.categoryId}</td>
+                <td>${product.category.title}</td>
                 <td style="max-width: 200px; overflow: auto">
                     ${product.title}</td>
                 <td>${product.price}</td>
@@ -58,9 +58,8 @@
                     ${product.imgPath}
                 </td>
                 <td>
-                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addProductModal"
-                onclick="fillData(`${product}`)">Edit</button>
-                <a href="/admin/deleteProduct/${product.id}" class="btn btn-outline-danger">Delete</a>
+                <a href="/admin/viewProductEdit/${product.id}" class="btn btn-outline-primary">✎</a>
+                <a href="/admin/deleteProduct/${product.id}" class="btn btn-outline-danger">🗑</a>
                 </td>
             </tr>
             </c:forEach>
@@ -81,35 +80,41 @@
                     </div>
                     <div class="modal-body">
                         <form:form action="/admin/addProduct" modelAttribute="newProduct">
-                            <div class="mb-3 has-validation" id="category">
-                                <form:label path="categoryId" cssClass="form-label">Category ID</form:label>
+                            <div class="mb-3">
+                                <form:label path="categoryId" cssClass="form-label">Категория</form:label>
                                 <form:select cssClass="form-select" path="categoryId">
-                                    <c:forEach  items="${categoryListForSelect}" var="category">
+                                    <c:forEach  items="${categoryList}" var="category">
                                         <form:option value="${category.id}">${category.title}</form:option>
                                     </c:forEach>
                                 </form:select>
                             </div>
-                            <div class="mb-3 has-validation" id="title">
-                                <form:label path="title" cssClass="form-label">Title</form:label>
-                                <form:input type="text" cssClass="form-control" path="title" />
+                            <div class="mb-3">
+                                <form:label path="title" cssClass="form-label">Название</form:label>
+                                <form:input type="text" cssClass="form-control" path="title"
+                                    required="true" maxlength="50"/>
                             </div>
-                            <div class="mb-3 has-validation" id="price">
-                                <form:label path="price" cssClass="form-label">Price</form:label>
-                                <form:input type="number" cssClass="form-control" path="price" />
+                            <div class="mb-3">
+                                <form:label path="price" cssClass="form-label">Цена</form:label>
+                                <form:input type="number" cssClass="form-control" path="price"
+                                    required="true" />
                             </div>
-                            <div class="mb-3 has-validation" id="amount">
-                                <form:label path="amount" cssClass="form-label">Amount</form:label>
-                                <form:input type="number" cssClass="form-control" path="amount" />
+                            <div class="mb-3">
+                                <form:label path="amount" cssClass="form-label">Количество</form:label>
+                                <form:input type="number" cssClass="form-control" path="amount"
+                                    required="true" />
                             </div>
-                            <div class="mb-3 has-validation" id="desc">
-                                <form:label path="description" cssClass="form-label">Description</form:label>
-                                <form:input type="text" cssClass="form-control" path="description" />
+                            <div class="mb-3">
+                                <form:label path="description" cssClass="form-label">Описание</form:label>
+                                <form:input type="text" cssClass="form-control" path="description"
+                                    required="true" minlength="10" maxlength="255"/>
                             </div>
-                            <div class="mb-3" id="image">
-                                <form:input path="imgPath" type="file"/>
+                            <div class="mb-3">
+                                <form:label path="imgPath" cssClass="form-label">Ссылка на изображение</form:label>
+                                <form:input path="imgPath" cssClass="form-control" type="text"
+                                    required="true" maxlength="255"/>
                             </div>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button  type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button  type="submit" class="btn btn-primary">Сохранить</button>
                         </form:form>
                     </div>
                 </div>
@@ -117,16 +122,280 @@
         </div>
     </div>
     <div class="tab-pane fade" id="category-list" role="tabpanel" aria-labelledby="category-list-tab-tab">
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Главная категория</th>
+                <th>Категория</th>
+                <th>Опции</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${categoryList}" var="category">
+                <tr>
+                    <td>${category.id}</td>
+                    <td>${category.parentCategory.title}</td>
+                    <td>${category.title}</td>
+                    <td>
+                        <a href="/admin/viewCategoryEdit/${category.id}" class="btn btn-outline-primary">✎</a>
+                        <a href="/admin/deleteCategory/${category.id}" class="btn btn-outline-danger">🗑</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
 
+        <!-- open modal for category adding -->
+        <button type="button" class="btn btn-outline-success"
+                data-bs-toggle="modal" data-bs-target="#addCategoryModal">Добавить категорию</button>
+
+        <!--add category modal-->
+        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCategoryModalLabel">Добавление категории</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form:form action="/admin/addCategory" modelAttribute="newCategory">
+                            <div class="mb-3">
+                                <form:label path="parentCategoryId" cssClass="form-label">Главная категория</form:label>
+                                <form:select cssClass="form-select" path="parentCategoryId">
+                                    <form:option value="0">Главная категория</form:option>
+                                    <c:forEach  items="${categoryList}" var="category">
+                                        <form:option value="${category.id}">${category.title}</form:option>
+                                    </c:forEach>
+                                </form:select>
+                            </div>
+                            <div class="mb-3">
+                                <form:label path="title" cssClass="form-label">Название</form:label>
+                                <form:input type="text" cssClass="form-control" path="title"
+                                    required="true" maxlength="50"/>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button  type="submit" class="btn btn-primary">Сохранить</button>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane fade" id="user-list" role="tabpanel" aria-labelledby="user-list-tab">
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Логин</th>
+                <th>Почта</th>
+                <th>Администратор</th>
+                <th>Опции</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${userList}" var="user">
+                <tr>
+                    <td>${user.id}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.permissions ? "+" : "-"}</td>
+                    <td>
+                        <a href="/admin/viewUserEdit/${user.id}" class="btn btn-outline-primary">✎</a>
+                        <a href="/admin/deleteUser/${user.id}" class="btn btn-outline-danger">🗑</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
 
+        <!-- open modal for user adding -->
+        <button type="button" class="btn btn-outline-success"
+                data-bs-toggle="modal" data-bs-target="#addUserModal">Добавить пользователя</button>
+
+        <!--add user modal-->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Добавление пользователя</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form:form action="/admin/addUser" modelAttribute="newUser">
+                            <div class="mb-3">
+                                <form:label path="username" cssClass="form-label">Логин</form:label>
+                                <form:input type="text" path="username" cssClass="form-control"
+                                    required="true" minlength="5" maxlength="20"/>
+                            </div>
+                            <div class="mb-3">
+                                <form:label path="email" cssClass="form-label">Почта</form:label>
+                                <form:input type="email" cssClass="form-control" path="email"
+                                    required="true" maxlength="50"/>
+                            </div>
+                            <div class="mb-3">
+                                <form:label path="password" cssClass="form-label">Пароль</form:label>
+                                <form:input type="password" cssClass="form-control" path="password"
+                                    required="true" minlength="6" maxlength="255"/>
+                            </div>
+                            <div class="mb-3">
+                                <form:checkbox cssClass="form-check-input" path="permissions" value="administrator" />
+                                <form:label path="permissions" cssClass="form-check-label">Администратор</form:label>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button  type="submit" class="btn btn-primary">Сохранить</button>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane fade" id="order-list" role="tabpanel" aria-labelledby="order-list-tab">
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Пользователь</th>
+                <th>Продукт</th>
+                <th>Опции</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${orderList}" var="order">
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.user.username}</td>
+                    <td>${order.product.title}</td>
+                    <td>
+                        <a href="/admin/viewOrderEdit/${order.id}" class="btn btn-outline-primary">✎</a>
+                        <a href="/admin/deleteOrder/${order.id}" class="btn btn-outline-danger">🗑</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
 
+        <!-- open modal for order adding -->
+        <button type="button" class="btn btn-outline-success"
+                data-bs-toggle="modal" data-bs-target="#addOrderModal">Добавить заказ</button>
+
+        <!--add order modal-->
+        <div class="modal fade" id="addOrderModal" tabindex="-1" aria-labelledby="addOrderModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addOrderModalLabel">Добавление заказа</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form:form action="/admin/addOrder" modelAttribute="newOrder">
+                            <div class="mb-3">
+                                <form:label path="userId" cssClass="form-label">Пользователь</form:label>
+                                <form:select path="userId" cssClass="form-select">
+                                    <c:forEach  items="${userList}" var="user">
+                                        <form:option value="${user.id}">${user.username} (${user.email})</form:option>
+                                    </c:forEach>
+                                </form:select>
+                            </div>
+                            <div class="mb-3">
+                                <form:label path="productId" cssClass="form-label">Продукт</form:label>
+                                <form:select path="productId" cssClass="form-select">
+                                    <c:forEach  items="${productList}" var="product">
+                                        <form:option value="${product.id}">${product.title} (${product.category.title})</form:option>
+                                    </c:forEach>
+                                </form:select>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button  type="submit" class="btn btn-primary">Сохранить</button>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="tab-pane fade" id="comment-list" role="tabpanel" aria-labelledby="comment-list-tab">
+        <table class="table table-responsive">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Пользователь</th>
+                <th>Заголовок</th>
+                <th>Комментарий</th>
+                <th>Рейтинг</th>
+                <th>Продукт</th>
+                <th>Опции</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach items="${commentList}" var="comment">
+                <tr>
+                    <td>${comment.id}</td>
+                    <td>${comment.user.username}</td>
+                    <td>${comment.title == null ? "Нет заголовка" : comment.title}</td>
+                    <td>${comment.comment}</td>
+                    <td>${comment.rating}</td>
+                    <td>${comment.product.title}</td>
+                    <td>
+                        <a href="/admin/viewCommentEdit/${comment.id}" class="btn btn-outline-primary">✎</a>
+                        <a href="/admin/deleteComment/${comment.id}" class="btn btn-outline-danger">🗑</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
 
+        <!-- open modal for comment adding -->
+        <button type="button" class="btn btn-outline-success"
+                data-bs-toggle="modal" data-bs-target="#addCommentModal">Добавить комментарий</button>
+
+        <!--add comment modal-->
+        <div class="modal fade" id="addCommentModal" tabindex="-1" aria-labelledby="addCommentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCommentModalLabel">Добавление комментария</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form:form action="/admin/addComment" modelAttribute="newComment">
+                            <div class="mb-3">
+                                <form:label path="userId" cssClass="form-label">Пользователь</form:label>
+                                <form:select path="userId" cssClass="form-select">
+                                    <c:forEach  items="${userList}" var="user">
+                                        <form:option value="${user.id}">${user.username} (${user.email})</form:option>
+                                    </c:forEach>
+                                </form:select>
+                            </div>
+                            <div class="mb-3">
+                                <form:label path="title" cssClass="form-label">Заголовок</form:label>
+                                <form:input type="text" path="title" cssClass="form-control"
+                                    maxlength="50" />
+                            </div>
+                            <div class="mb-3">
+                                <form:label path="comment" cssClass="form-label">Комментарий</form:label>
+                                <form:input type="text" path="comment" cssClass="form-control"
+                                    required="true" maxlength="255"/>
+                            </div>
+                            <div class="mb-3">
+                                <form:label path="rating" cssClass="form-label">Рейтинг</form:label>
+                                <form:input path="rating" type="number" cssClass="form-control"
+                                    min="0" max="5" />
+                            </div>
+                            <div class="mb-3">
+                                <form:label path="productId" cssClass="form-label">Продукт</form:label>
+                                <form:select path="productId" cssClass="form-select">
+                                    <c:forEach  items="${productList}" var="product">
+                                        <form:option value="${product.id}">${product.title} (${product.category.title})</form:option>
+                                    </c:forEach>
+                                </form:select>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button  type="submit" class="btn btn-primary">Сохранить</button>
+                        </form:form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

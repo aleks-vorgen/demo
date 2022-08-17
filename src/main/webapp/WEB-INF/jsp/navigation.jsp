@@ -10,25 +10,25 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/products/viewAllProducts">Products</a>
+          <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/products/viewAllProducts">Каталог</a>
         </li>
         <li class="nav-item">
           <c:if test="${user.permissions == true}">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/admin/viewAdminPanel" tabindex="-1" aria-disabled="true">Admin panel</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/admin/viewAdminPanel" tabindex="-1" aria-disabled="true">Админ панель</a>
           </c:if>
         </li>
         <li class="nav-item">
           <c:if test="${user.username == null}">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/users/viewLogin" tabindex="-1" aria-disabled="true">Login</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/users/viewLogin" tabindex="-1" aria-disabled="true">Войти</a>
           </c:if>
           <c:if test="${user.username != null}">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/users/logout" tabindex="-1" aria-disabled="true">Logout</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/users/logout" tabindex="-1" aria-disabled="true">Выйти</a>
           </c:if>
         </li>
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Найти</button>
       </form>
     </div>
   </div>

@@ -6,25 +6,28 @@
 
 
 <form:form action="/users/register" modelAttribute="command" style="width: 40%">
-    <% if (session.getAttribute("error") != null
-            && Boolean.parseBoolean(session.getAttribute("error").toString())) {%>>
-    <div class="alert-danger p-2 mb-3 text-center">Пользователь с такими данными не найден</div>
-    <%}%>
+    <c:if test='<%=session.getAttribute("regError") != null
+            && Boolean.parseBoolean(session.getAttribute("regError").toString()) %>'>
+        <div class="alert-danger p-2 mb-3 text-center">Пользователь с такой почтой уже существует</div>
+    </c:if>
     <div class="mb-3 has-validation">
-        <form:label path="username" cssClass="form-label">Username</form:label>
-        <form:input type="text" cssClass="form-control" path="username"/>
+        <form:label path="username" cssClass="form-label">Логин</form:label>
+        <form:input type="text" cssClass="form-control" path="username"
+            required="true" minlength="5" maxlength="20" />
     </div>
     <div class="mb-3 has-validation">
-        <form:label path="email" cssClass="form-label">E-mail</form:label>
-        <form:input type="email" cssClass="form-control" path="email" />
+        <form:label path="email" cssClass="form-label">Почта</form:label>
+        <form:input type="email" cssClass="form-control" path="email"
+            required="true" maxlength="50"/>
     </div>
     <div class="mb-3 has-validation">
-        <form:label path="password" cssClass="form-label">Password</form:label>
-        <form:password cssClass="form-control" path="password" />
+        <form:label path="password" cssClass="form-label">Пароль</form:label>
+        <form:password cssClass="form-control" path="password"
+            required="true" minlength="6" maxlength="255"/>
     </div>
     <div class="justify-content-between" style="display: flex">
-        <button type="submit" class="btn btn-primary" style="width: 165px">Register</button>
-        <a href="${pageContext.request.contextPath}/users/viewLogin" class="link-primary">I have an account</a>
+        <button type="submit" class="btn btn-primary" style="width: 200px">Зарегистрироваться</button>
+        <a href="${pageContext.request.contextPath}/users/viewLogin" class="link-primary">Войти</a>
     </div>
 </form:form>
 
