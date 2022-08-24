@@ -14,15 +14,18 @@
         </li>
         <li class="nav-item">
           <c:if test="${user.permissions == true}">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/admin/viewAdminPanel" tabindex="-1" aria-disabled="true">Админ панель</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/admin/viewAdminPanel">Админ панель</a>
           </c:if>
         </li>
         <li class="nav-item">
+          <a href="${pageContext.request.contextPath}/orders/viewOrder" class="nav-link active">Корзина</a>
+        </li>
+        <li class="nav-item">
           <c:if test="${user.username == null}">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/users/viewLogin" tabindex="-1" aria-disabled="true">Войти</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/users/viewLogin">Войти</a>
           </c:if>
           <c:if test="${user.username != null}">
-            <a class="nav-link active" href="${pageContext.request.contextPath}/users/logout" tabindex="-1" aria-disabled="true">Выйти</a>
+            <a class="nav-link active" href="${pageContext.request.contextPath}/users/logout">Выйти</a>
           </c:if>
         </li>
       </ul>

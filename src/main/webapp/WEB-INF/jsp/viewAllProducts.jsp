@@ -3,6 +3,21 @@
 
 <c:import url="header.jsp"/>
 
+<c:if test="${addToBasketSuccess}">
+    <div class="position-fixed bottom-0 right-0 p-3" style="z-index: 5; right: 0; bottom: 0;">
+        <div id="liveToast" class="toast show hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="4000">
+            <div class="toast-header">
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                Продукт добавлен в корзину
+            </div>
+        </div>
+    </div>
+</c:if>
+
 <c:forEach items="${productList}" var="product">
         <div class="float-start" style="width: 30%; margin: 10px">
             <div class="card" style="height: 400px">
@@ -12,7 +27,7 @@
                     <p class="card-text">${product.description}</p>
                     <p class="card-text text-end">${product.price}$</p>
                     <a href="/products/${product.id}" class="card-link">Детали</a>
-                    <a href="#" class="card-link">Купить</a>
+                    <a href="/orders/addToBasket/${product.id}" class="card-link">В корзину</a>
                 </div>
             </div>
         </div>
