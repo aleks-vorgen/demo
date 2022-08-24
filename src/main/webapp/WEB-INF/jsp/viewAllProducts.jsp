@@ -18,20 +18,29 @@
     </div>
 </c:if>
 
+<c:if test="${productList.size() == 0}">
+    <div class="flex-content">
+        <h3>По вашему запросу ничего не найдено</h3>
+        <h6>Попробуйте повторить запрос с большой буквы</h6>
+    </div>
+</c:if>
+
 <c:forEach items="${productList}" var="product">
-        <div class="float-start" style="width: 30%; margin: 10px">
-            <div class="card" style="height: 400px">
-                <img src="${product.imgPath}" alt="${product.title}" class="card-img-top">
-                <div class="card-body">
-                    <h5 class="card-title">${product.title}</h5>
-                    <p class="card-text">${product.description}</p>
-                    <p class="card-text text-end">${product.price}$</p>
-                    <a href="/products/${product.id}" class="card-link">Детали</a>
-                    <a href="/orders/addToBasket/${product.id}" class="card-link">В корзину</a>
-                </div>
+    <div class="float-start" style="width: 30%; margin: 10px">
+        <div class="card" style="height: 400px">
+            <img src="${product.imgPath}" alt="${product.title}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">${product.title}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text text-end">${product.price}$</p>
+                <a href="/products/${product.id}" class="card-link">Детали</a>
+                <a href="/orders/addToBasket/${product.id}" class="card-link">В корзину</a>
             </div>
         </div>
+    </div>
 </c:forEach>
+
+<div class="float-start search_data" style="width: 30%; margin: 10px"></div>
 
 <script>
     $(document).ready(function () {

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
@@ -29,8 +30,8 @@
           </c:if>
         </li>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
+      <form class="d-flex" action="${pageContext.request.contextPath}/products/searchProduct">
+        <input class="form-control me-2" type="text" placeholder="Поиск" name="input" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Найти</button>
       </form>
     </div>

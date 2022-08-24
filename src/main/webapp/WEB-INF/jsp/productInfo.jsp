@@ -19,7 +19,7 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 style="display: inline-block; min-width: 20%">${product.price}$</h5>
-                <a href="#" class="btn btn-outline-success" style="min-width: 15%">Купить</a>
+                <a href="/orders/addToBasket/${product.id}" class="btn btn-outline-success">В корзину</a>
             </div>
         </div>
         <div class="card mb-3">
@@ -30,7 +30,7 @@
     </div>
 </div>
 <c:if test="${commentList != null}">
-<div class="row" style="width: 100%">
+<div class="row mt-4" style="width: 100%">
     <div class="col-6">
         <h2>Описание</h2>
         <p>${product.description}</p>
