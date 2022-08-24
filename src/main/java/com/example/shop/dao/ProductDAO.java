@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Locale;
 
 @Component
 public class ProductDAO {
@@ -15,6 +16,9 @@ public class ProductDAO {
             "SELECT p.*, c.id as c_id, c.title as c_title" +
             " FROM lab3_ko_products p" +
             " JOIN lab3_ko_categories c ON p.category_id = c.id";
+
+    private static final String GET_PRODUCT_LIST_BY_SEARCH =
+            GET_PRODUCT_LIST + " WHERE p.title LIKE ?";
 
     private static final String GET_PRODUCT =
             GET_PRODUCT_LIST + " WHERE p.id = ?";
@@ -44,6 +48,11 @@ public class ProductDAO {
 
         return jdbcTemplate.query(GET_PRODUCT_LIST,
                 new ProductMapper());
+    }
+
+    public List<Product> getProductListBySearch(String request) {
+        return jdbcTemplate.query(GET_PRODUCT_LIST_BY_SEARCH,
+                new ProductMapper(), "%" + request + "%");
     }
 
     public Product getProduct(int id) {
