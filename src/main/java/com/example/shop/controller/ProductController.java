@@ -2,12 +2,15 @@ package com.example.shop.controller;
 
 import com.example.shop.dao.CommentDAO;
 import com.example.shop.dao.ProductDAO;
+import com.example.shop.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/products")
@@ -39,5 +42,15 @@ public class ProductController {
         model.addAttribute("commentList", commentDAO.getCommentListByProductId(id));
 
         return "productInfo";
+    }
+
+    @GetMapping(value = "/searchProduct")
+    public String searchProduct(@RequestParam("input") String input, HttpServletRequest request, Model model) {
+        if (request.getSession().getAttribute("user") == null)
+            return "redirect:/users/viewLogin";
+
+        model.addAttribute("productList", productDAO.getProductListBySearch(input));
+
+        return "viewAllProducts";
     }
 }
