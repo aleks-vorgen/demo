@@ -71,11 +71,9 @@
 			<version>42.4.0</version>
 		</dependency>
 
-
 	</dependencies>
 
 	<build>
-		<outputDirectory>${project.basedir}/target/classes</outputDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
