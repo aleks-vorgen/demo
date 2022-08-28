@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/test/
+/.jpb/
+/src/main/java/com/example/shop/Main.java
