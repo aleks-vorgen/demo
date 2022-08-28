@@ -1,6 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.dao.*;
+import com.example.shop.dao.interfaces.*;
 import com.example.shop.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private final CategoryDAO categoryDAO;
-    private final CommentDAO commentDAO;
-    private final OrderDAO orderDAO;
-    private final ProductDAO productDAO;
-    private final UserDAO userDAO;
+    private final CategoryDao categoryDao;
+    private final CommentDao commentDao;
+    private final OrderDao orderDao;
+    private final ProductDao productDao;
+    private final UserDao userDao;
 
-    public AdminController(CategoryDAO categoryDAO, CommentDAO commentDAO, OrderDAO orderDAO, ProductDAO productDAO, UserDAO userDAO) {
-        this.categoryDAO = categoryDAO;
-        this.commentDAO = commentDAO;
-        this.orderDAO = orderDAO;
-        this.productDAO = productDAO;
-        this.userDAO = userDAO;
+    public AdminController(CategoryDao categoryDao, CommentDao commentDao, OrderDao orderDao, ProductDao productDao, UserDao userDao) {
+        this.categoryDao = categoryDao;
+        this.commentDao = commentDao;
+        this.orderDao = orderDao;
+        this.productDao = productDao;
+        this.userDao = userDao;
     }
 
     private boolean isNoPermission(HttpServletRequest request) {
@@ -37,19 +37,19 @@ public class AdminController {
 
         model.addAttribute("title", "Админ панель");
 
-        model.addAttribute("categoryList", categoryDAO.getCategoryList());
+        model.addAttribute("categoryList", categoryDao.getCategoryList());
         model.addAttribute("newCategory", new Category());
 
-        model.addAttribute("commentList", commentDAO.getCommentList());
+        model.addAttribute("commentList", commentDao.getCommentList());
         model.addAttribute("newComment", new Comment());
 
-        model.addAttribute("orderList", orderDAO.getOrderList());
+        model.addAttribute("orderList", orderDao.getOrderList());
         model.addAttribute("newOrder", new Order());
 
-        model.addAttribute("productList", productDAO.getProductList());
+        model.addAttribute("productList", productDao.getProductList());
         model.addAttribute("newProduct", new Product());
 
-        model.addAttribute("userList", userDAO.getUserList());
+        model.addAttribute("userList", userDao.getUserList());
         model.addAttribute("newUser", new User());
 
         return "AdminPanel";
@@ -62,7 +62,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        productDAO.insertProduct(new Product(product.getId(), null, product.getCategoryId(), product.getTitle(),
+        productDao.insertProduct(new Product(product.getId(), null, product.getCategoryId(), product.getTitle(),
         product.getPrice(), product.getAmount(), product.getDescription(), product.getImgPath()));
 
         return "redirect:/admin/viewAdminPanel";
@@ -75,8 +75,8 @@ public class AdminController {
 
         model.addAttribute("title", "Редактирование продукта");
 
-        model.addAttribute("product", productDAO.getProduct(id));
-        model.addAttribute("categoryList", categoryDAO.getCategoryList());
+        model.addAttribute("product", productDao.getProduct(id));
+        model.addAttribute("categoryList", categoryDao.getCategoryList());
 
         return "productEdit";
     }
@@ -87,7 +87,7 @@ public class AdminController {
             return "redirect:/";
 
 
-        productDAO.updateProduct(product);
+        productDao.updateProduct(product);
 
         return "redirect:/admin/viewAdminPanel";
     }
@@ -97,7 +97,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        productDAO.deleteProduct(id);
+        productDao.deleteProduct(id);
 
         return "redirect:/admin/viewAdminPanel";
     }
@@ -109,7 +109,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        categoryDAO.insertCategory(new Category(category.getId(), null,
+        categoryDao.insertCategory(new Category(category.getId(), null,
                 category.getParentCategoryId(), category.getTitle()));
 
         return "redirect:/admin/viewAdminPanel";
@@ -122,8 +122,8 @@ public class AdminController {
 
         model.addAttribute("title", "Редактирование категории");
 
-        model.addAttribute("category", categoryDAO.getCategory(id));
-        model.addAttribute("categoryList", categoryDAO.getCategoryList());
+        model.addAttribute("category", categoryDao.getCategory(id));
+        model.addAttribute("categoryList", categoryDao.getCategoryList());
 
         return "categoryEdit";
     }
@@ -133,7 +133,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        categoryDAO.updateCategory(category);
+        categoryDao.updateCategory(category);
 
         return "redirect:/admin/viewAdminPanel";
     }
@@ -143,7 +143,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        categoryDAO.deleteCategory(id);
+        categoryDao.deleteCategory(id);
 
         return "redirect:/admin/viewAdminPanel";
     }
@@ -155,7 +155,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        userDAO.insertUser(new User(user.getId(), user.getUsername(),
+        userDao.insertUser(new User(user.getId(), user.getUsername(),
                 user.getEmail(), user.getPassword(), user.isPermissions()));
 
         return "redirect:/admin/viewAdminPanel";
@@ -168,7 +168,7 @@ public class AdminController {
 
         model.addAttribute("title", "Редактирование пользователя");
 
-        model.addAttribute("user", userDAO.getUser(id));
+        model.addAttribute("user", userDao.getUser(id));
 
         return "userEdit";
     }
@@ -178,7 +178,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        userDAO.updateUser(user);
+        userDao.updateUser(user);
 
         return "redirect:/admin/viewAdminPanel";
     }
@@ -188,7 +188,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        userDAO.deleteUser(id);
+        userDao.deleteUser(id);
 
         return "redirect:/admin/viewAdminPanel";
     }
@@ -200,7 +200,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        orderDAO.insertOrder(new Order(order.getId(),
+        orderDao.insertOrder(new Order(order.getId(),
                 null, order.getUserId(),
                 null, order.getProductId()));
 
@@ -214,9 +214,9 @@ public class AdminController {
 
         model.addAttribute("title", "Редактирование заказа");
 
-        model.addAttribute("order", orderDAO.getOrder(id));
-        model.addAttribute("userList", userDAO.getUserList());
-        model.addAttribute("productList", productDAO.getProductList());
+        model.addAttribute("order", orderDao.getOrder(id));
+        model.addAttribute("userList", userDao.getUserList());
+        model.addAttribute("productList", productDao.getProductList());
 
         return "orderEdit";
     }
@@ -226,7 +226,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        orderDAO.updateOrder(new Order(order.getId(),
+        orderDao.updateOrder(new Order(order.getId(),
                 null, order.getUserId(),
                 null, order.getProductId()));
 
@@ -238,7 +238,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        orderDAO.deleteOrder(id);
+        orderDao.deleteOrder(id);
 
         return "redirect:/admin/viewAdminPanel";
     }
@@ -250,7 +250,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        commentDAO.insertComment(new Comment(comment.getId(), null, comment.getUserId(), comment.getTitle(),
+        commentDao.insertComment(new Comment(comment.getId(), null, comment.getUserId(), comment.getTitle(),
                 comment.getComment(), comment.getRating(), null, comment.getProductId()));
 
         return "redirect:/admin/viewAdminPanel";
@@ -263,9 +263,9 @@ public class AdminController {
 
         model.addAttribute("title", "Редактирование комментария");
 
-        model.addAttribute("comment", commentDAO.getComment(id));
-        model.addAttribute("userList", userDAO.getUserList());
-        model.addAttribute("productList", productDAO.getProductList());
+        model.addAttribute("comment", commentDao.getComment(id));
+        model.addAttribute("userList", userDao.getUserList());
+        model.addAttribute("productList", productDao.getProductList());
 
         return "commentEdit";
     }
@@ -275,7 +275,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        commentDAO.updateComment(new Comment(comment.getId(),
+        commentDao.updateComment(new Comment(comment.getId(),
                 null, comment.getUserId(),
                 comment.getTitle(), comment.getComment(), comment.getRating(),
                 null, comment.getProductId()));
@@ -288,7 +288,7 @@ public class AdminController {
         if (isNoPermission(request))
             return "redirect:/";
 
-        commentDAO.deleteComment(id);
+        commentDao.deleteComment(id);
 
         return "redirect:/admin/viewAdminPanel";
     }

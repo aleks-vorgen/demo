@@ -399,10 +399,4 @@
     </div>
 </div>
 
-<script>
-    function fillData(product) {
-        console.log(product);
-    }
-</script>
-
 <c:import url="footer.jsp"/>

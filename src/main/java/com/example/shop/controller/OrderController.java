@@ -1,7 +1,7 @@
 package com.example.shop.controller;
 
-import com.example.shop.dao.OrderDAO;
-import com.example.shop.dao.ProductDAO;
+import com.example.shop.dao.interfaces.OrderDao;
+import com.example.shop.dao.interfaces.ProductDao;
 import com.example.shop.model.Order;
 import com.example.shop.model.Product;
 import com.example.shop.model.User;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,12 +18,12 @@ import java.util.ArrayList;
 @RequestMapping("/orders")
 public class OrderController {
     private final ArrayList<Product> orderList;
-    private final OrderDAO orderDAO;
-    private final ProductDAO productDAO;
+    private final OrderDao orderDao;
+    private final ProductDao productDao;
 
-    public OrderController(OrderDAO orderDAO, ProductDAO productDAO) {
-        this.orderDAO = orderDAO;
-        this.productDAO = productDAO;
+    public OrderController(OrderDao orderDao, ProductDao productDao) {
+        this.orderDao = orderDao;
+        this.productDao = productDao;
         orderList = new ArrayList<>();
     }
 
@@ -43,7 +42,7 @@ public class OrderController {
 
     @GetMapping("/addToBasket/{id}")
     public String addProductToOrderList(@PathVariable int id, Model model) {
-        orderList.add(productDAO.getProduct(id));
+        orderList.add(productDao.getProduct(id));
         model.addAttribute("addToBasketSuccess", true);
 
         return "redirect:/products/viewAllProducts";
@@ -51,7 +50,7 @@ public class OrderController {
 
     @GetMapping("/deleteFromBasket/{id}")
     public String deleteProductFromBasket(@PathVariable int id, Model model) {
-        orderList.remove(productDAO.getProduct(id));
+        orderList.remove(productDao.getProduct(id));
         model.addAttribute("deleteFromBasketSuccess", true);
 
         return "redirect:/orders/viewOrder";
@@ -67,7 +66,7 @@ public class OrderController {
             Order order = new Order();
             order.setUserId(user.getId());
             order.setProductId(product.getId());
-            orderDAO.insertOrder(order);
+            orderDao.insertOrder(order);
         }
         model.addAttribute("orderSaveSuccess");
 

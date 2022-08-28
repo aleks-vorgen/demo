@@ -1,17 +1,16 @@
-package com.example.shop.dao;
+package com.example.shop.dao.implementations;
 
+import com.example.shop.dao.interfaces.ProductDao;
 import com.example.shop.dao.mapper.ProductMapper;
 import com.example.shop.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Locale;
 
 @Component
-public class ProductDAO {
+public class ProductDaoImpl implements ProductDao {
     private static final String GET_PRODUCT_LIST =
             "SELECT p.*, c.id as c_id, c.title as c_title" +
             " FROM lab3_ko_products p" +
@@ -40,27 +39,31 @@ public class ProductDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ProductDAO(JdbcTemplate jdbcTemplate) {
+    public ProductDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public List<Product> getProductList() {
 
         return jdbcTemplate.query(GET_PRODUCT_LIST,
                 new ProductMapper());
     }
 
+    @Override
     public List<Product> getProductListBySearch(String request) {
         return jdbcTemplate.query(GET_PRODUCT_LIST_BY_SEARCH,
                 new ProductMapper(), "%" + request + "%");
     }
 
+    @Override
     public Product getProduct(int id) {
         return jdbcTemplate.query(GET_PRODUCT,
                 new ProductMapper(), new Object[]{id})
                 .stream().findAny().orElse(null);
     }
 
+    @Override
     public void insertProduct(Product product) {
         jdbcTemplate.update(INSERT_PRODUCT,
                 product.getCategoryId(), product.getTitle(),
@@ -68,6 +71,7 @@ public class ProductDAO {
                 product.getImgPath());
     }
 
+    @Override
     public void updateProduct(Product product) {
         jdbcTemplate.update(UPDATE_PRODUCT,
                 product.getCategoryId(), product.getTitle(),
@@ -75,6 +79,7 @@ public class ProductDAO {
                 product.getImgPath(), product.getId());
     }
 
+    @Override
     public void deleteProduct(int id) {
         jdbcTemplate.update(DELETE_PRODUCT, id);
     }

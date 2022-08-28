@@ -1,16 +1,16 @@
-package com.example.shop.dao;
+package com.example.shop.dao.implementations;
 
+import com.example.shop.dao.interfaces.UserDao;
 import com.example.shop.dao.mapper.UserMapper;
 import com.example.shop.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class UserDAO {
+public class UserDaoImpl implements UserDao {
     private static final String GET_USER_LIST =
             "SELECT id, username, email, permissions" +
             " FROM lab3_ko_users";
@@ -38,26 +38,30 @@ public class UserDAO {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public UserDAO(JdbcTemplate jdbcTemplate) {
+    public UserDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public List<User> getUserList() {
         return jdbcTemplate.query(GET_USER_LIST, new UserMapper());
     }
 
+    @Override
     public User getUser(int id) {
         return jdbcTemplate.query(GET_USER,
                         new UserMapper(), new Object[]{id})
                 .stream().findAny().orElse(null);
     }
 
+    @Override
     public User getUser(String email) {
         return jdbcTemplate.query(GET_USER_BY_EMAIL,
                 new UserMapper(), new Object[]{email})
                 .stream().findAny().orElse(null);
     }
 
+    @Override
     public void insertUser(User user) {
         jdbcTemplate.update(INSERT_USER,
                 user.getUsername(), user.getEmail(),
@@ -65,12 +69,14 @@ public class UserDAO {
     }
 
 
+    @Override
     public void updateUser(User user) {
         jdbcTemplate.update(UPDATE_USER,
                 user.getUsername(), user.getEmail(),
                 user.getPassword(), user.isPermissions(), user.getId());
     }
 
+    @Override
     public void deleteUser(int id) {
         jdbcTemplate.update(DELETE_USER, id);
     }

@@ -1,6 +1,6 @@
 package com.example.shop.controller;
 
-import com.example.shop.dao.UserDAO;
+import com.example.shop.dao.interfaces.UserDao;
 import com.example.shop.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,16 +9,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
-    private final UserDAO userDAO;
+    private final UserDao userDao;
 
     @Autowired
-    public UserController(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserController(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @GetMapping("/viewLogin")
@@ -37,7 +36,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user, HttpServletRequest request) {
-        User loggedUser = userDAO.getUser(user.getEmail());
+        User loggedUser = userDao.getUser(user.getEmail());
         if (loggedUser == null || !loggedUser.getPassword().equals(user.getPassword())) {
             request.getSession().setAttribute("logError", true);
             return "redirect:/users/viewLogin";
@@ -51,14 +50,14 @@ public class UserController {
 
     @PostMapping("/register")
     public String create(@ModelAttribute("user") User user, HttpServletRequest request) {
-        if (userDAO.getUser(user.getEmail()) != null) {
+        if (userDao.getUser(user.getEmail()) != null) {
             request.getSession().setAttribute("regError", true);
             return "redirect:/users/viewRegister";
         }
         else {
-            userDAO.insertUser(user);
+            userDao.insertUser(user);
             request.getSession().removeAttribute("regError");
-            request.getSession().setAttribute("user", userDAO.getUser(user.getEmail()));
+            request.getSession().setAttribute("user", userDao.getUser(user.getEmail()));
             return "redirect:/";
         }
     }
