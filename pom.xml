@@ -20,7 +20,6 @@
 		<spring.security.version>5.7.2</spring.security.version>
 	</properties>
 
-	<!-- Spring -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -28,7 +27,6 @@
 			<version>2.4.4</version>
 		</dependency>
 
-		<!-- Built-in tomcat server -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
@@ -36,26 +34,17 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- JSTL for using .jsp -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
 
-		<!-- For live server reload -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 			<scope>runtime</scope>
-		</dependency>
-
-		<!-- Logging -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
 		</dependency>
 
 		<dependency>
@@ -64,11 +53,21 @@
 			<version>5.3.22</version>
 		</dependency>
 
-		<!-- Database -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>5.2.0.RELEASE</version>
 		</dependency>
 
 	</dependencies>
@@ -78,9 +77,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<fork>true</fork>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

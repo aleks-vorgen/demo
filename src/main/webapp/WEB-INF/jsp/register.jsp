@@ -5,10 +5,9 @@
 <c:import url="header.jsp"/>
 
 
-<form:form action="/users/register" modelAttribute="command" style="width: 40%">
-    <c:if test='<%=session.getAttribute("regError") != null
-            && Boolean.parseBoolean(session.getAttribute("regError").toString()) %>'>
-        <div class="alert-danger p-2 mb-3 text-center">Пользователь с такой почтой уже существует</div>
+<form:form action="/registration" modelAttribute="userForm" style="width: 40%">
+    <c:if test="${regError != null}">
+        <div class="alert-danger p-2 mb-3 text-center">${regError}</div>
     </c:if>
     <div class="mb-3 has-validation">
         <form:label path="username" cssClass="form-label">Логин</form:label>
@@ -27,7 +26,7 @@
     </div>
     <div class="justify-content-between" style="display: flex">
         <button type="submit" class="btn btn-primary" style="width: 200px">Зарегистрироваться</button>
-        <a href="${pageContext.request.contextPath}/users/viewLogin" class="link-primary">Войти</a>
+        <a href="${pageContext.request.contextPath}/login" class="link-primary">Войти</a>
     </div>
 </form:form>
 

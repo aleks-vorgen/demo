@@ -7,13 +7,14 @@ public class User {
     String username;
     String email;
     String password;
-    boolean permissions;
+    String permissions;
+    boolean active;
 
     public User() {
         super();
     }
 
-    public User(int id, String username, String email, String password, boolean permissions) {
+    public User(int id, String username, String email, String password, String permissions) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -53,12 +54,20 @@ public class User {
         this.password = password;
     }
 
-    public boolean isPermissions() {
+    public String getPermissions() {
         return permissions;
     }
 
-    public void setPermissions(boolean permissions) {
+    public void setPermissions(String permissions) {
         this.permissions = permissions;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override
@@ -68,12 +77,9 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", permissions=" + permissions +
+                ", permissions='" + permissions + '\'' +
+                ", active=" + active +
                 '}';
-    }
-
-    public boolean equals(String email) {
-        return this.email.equals(email);
     }
 
     @Override
@@ -81,11 +87,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && permissions == user.permissions && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password);
+        return id == user.id && active == user.active && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(permissions, user.permissions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, password, permissions);
+        return Objects.hash(id, username, email, password, permissions, active);
     }
 }

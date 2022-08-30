@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class UserDaoImpl implements UserDao {
     private static final String GET_USER_LIST =
-            "SELECT id, username, email, permissions" +
+            "SELECT id, username, email, permissions, active" +
             " FROM lab3_ko_users";
 
     private static final String GET_USER =
@@ -21,14 +21,17 @@ public class UserDaoImpl implements UserDao {
     private static final String GET_USER_BY_EMAIL =
             "SELECT * FROM lab3_ko_users WHERE email = ?";
 
+    private static final String GET_USER_BY_USERNAME =
+            "SELECT * FROM lab3_ko_users WHERE username = ?";
+
     private static final String INSERT_USER =
             "INSERT INTO lab3_ko_users" +
-            " VALUES (default, ?, ?, ?, ?)";
+            " VALUES (default, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE_USER =
             "UPDATE lab3_ko_users" +
             " SET username = ?, email = ?," +
-            " password = ?, permissions = ?" +
+            " password = ?, permissions = ?, active = ?" +
             " WHERE id = ?";
 
     private static final String DELETE_USER =
@@ -62,10 +65,18 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        return jdbcTemplate.query(GET_USER_BY_USERNAME,
+                new UserMapper(), new Object[]{username})
+                .stream().findAny().orElse(null);
+    }
+
+    @Override
     public void insertUser(User user) {
         jdbcTemplate.update(INSERT_USER,
                 user.getUsername(), user.getEmail(),
-                user.getPassword(), user.isPermissions());
+                user.getPassword(), user.getPermissions(),
+                user.isActive());
     }
 
 
@@ -73,7 +84,8 @@ public class UserDaoImpl implements UserDao {
     public void updateUser(User user) {
         jdbcTemplate.update(UPDATE_USER,
                 user.getUsername(), user.getEmail(),
-                user.getPassword(), user.isPermissions(), user.getId());
+                user.getPassword(), user.getPermissions(),
+                user.isActive(), user.getId());
     }
 
     @Override

@@ -18,7 +18,8 @@ public class UserMapper implements RowMapper<User> {
         } catch (SQLException e) {
             user.setPassword("hidden");
         }
-        user.setPermissions(rs.getBoolean("permissions"));
+        user.setPermissions(rs.getString("permissions"));
+        user.setActive(rs.getBoolean("active"));
 
         return user;
     }
