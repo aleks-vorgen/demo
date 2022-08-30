@@ -22,8 +22,11 @@
                     required="true" minlength="6" maxlength="255"/>
     </div>
     <div class="mb-3">
-        <form:checkbox cssClass="form-check-input" path="permissions" value="administrator" />
-        <form:label path="permissions" cssClass="form-check-label">Администратор</form:label>
+        <form:label path="permissions" cssClass="form-label">Роли</form:label>
+        <form:select cssClass="form-select" path="permissions">
+            <form:option value="ROLE_ADMIN">Администратор</form:option>
+            <form:option value="ROLE_USER">Пользователь</form:option>
+        </form:select>
     </div>
     <a href="${pageContext.request.contextPath}/admin/viewAdminPanel" type="button"
        class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</a>

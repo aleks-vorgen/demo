@@ -1,11 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="com.example.shop.model.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:import url="header.jsp"/>
 
-<% request.getSession(); %>
-<% User user = (User) request.getSession().getAttribute("user"); %>
 
-<h1>Welcome, <%= user == null ? "guest" : user.getUsername() %></h1>
+<h1>Welcome, ${username == null ? "guest" : username}</h1>
 
 <c:import url="footer.jsp"/>

@@ -199,7 +199,7 @@
                     <td>${user.id}</td>
                     <td>${user.username}</td>
                     <td>${user.email}</td>
-                    <td>${user.permissions ? "+" : "-"}</td>
+                    <td>${user.permissions}</td>
                     <td>
                         <a href="/admin/viewUserEdit/${user.id}" class="btn btn-outline-primary">✎</a>
                         <a href="/admin/deleteUser/${user.id}" class="btn btn-outline-danger">🗑</a>

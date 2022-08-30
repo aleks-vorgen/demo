@@ -19,7 +19,7 @@ public class OrderMapper implements RowMapper<Order> {
                 rs.getInt("u_id"),
                 rs.getString("username"),
                 rs.getString("email"),
-                "hidden", false
+                "hidden", "hidden"
         ));
         order.setProduct(new Product(
                 rs.getInt("p_id"),

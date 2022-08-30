@@ -10,6 +10,7 @@ public interface UserDao {
     User getUser(int id);
 
     User getUser(String email);
+    User getUserByUsername(String username);
 
     void insertUser(User user);
 

@@ -2,6 +2,7 @@ package com.example.shop.controller;
 
 import com.example.shop.dao.interfaces.OrderDao;
 import com.example.shop.dao.interfaces.ProductDao;
+import com.example.shop.dao.interfaces.UserDao;
 import com.example.shop.model.Order;
 import com.example.shop.model.Product;
 import com.example.shop.model.User;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.ArrayList;
 
 @Controller
@@ -20,21 +22,20 @@ public class OrderController {
     private final ArrayList<Product> orderList;
     private final OrderDao orderDao;
     private final ProductDao productDao;
+    private final UserDao userDao;
 
-    public OrderController(OrderDao orderDao, ProductDao productDao) {
+    public OrderController(OrderDao orderDao, ProductDao productDao, UserDao userDao) {
         this.orderDao = orderDao;
         this.productDao = productDao;
+        this.userDao = userDao;
         orderList = new ArrayList<>();
     }
 
     @GetMapping("/viewOrder")
-    public String viewOrder(HttpServletRequest request, Model model) {
-        if (request.getSession().getAttribute("user") == null)
-            return "redirect:/users/viewLogin";
+    public String viewOrder(Model model) {
 
         model.addAttribute("title", "Заказ");
         model.addAttribute("newOrder", new Order());
-        model.addAttribute("user", request.getSession().getAttribute("user"));
         model.addAttribute("basket", orderList);
 
         return "viewOrder";
@@ -57,14 +58,11 @@ public class OrderController {
     }
 
     @GetMapping("/saveOrder")
-    public String saveOrder(HttpServletRequest request, Model model) {
-        if (request.getSession().getAttribute("user") == null)
-            return "redirect:/users/viewLogin";
+    public String saveOrder(Model model, Principal principal) {
 
-        User user = (User) request.getSession().getAttribute("user");
         for (Product product : orderList) {
             Order order = new Order();
-            order.setUserId(user.getId());
+            order.setUserId(userDao.getUserByUsername(principal.getName()).getId());
             order.setProductId(product.getId());
             orderDao.insertOrder(order);
         }

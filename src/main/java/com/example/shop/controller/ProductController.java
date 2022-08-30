@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 @RequestMapping("/products")
 public class ProductController {
@@ -21,15 +19,12 @@ public class ProductController {
     }
 
     @GetMapping("/viewAllProducts")
-    public String viewAllProducts(HttpServletRequest request, Model model) {
-        if (request.getSession().getAttribute("user") == null)
-            return "redirect:/users/viewLogin";
-        else {
-            model.addAttribute("title", "Каталог");
-            model.addAttribute("productList", productDao.getProductList());
+    public String viewAllProducts(Model model) {
 
-            return "viewAllProducts";
-        }
+        model.addAttribute("title", "Каталог");
+        model.addAttribute("productList", productDao.getProductList());
+
+        return "viewAllProducts";
     }
 
     @GetMapping(value = "/{id}")
@@ -42,9 +37,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/searchProduct")
-    public String searchProduct(@RequestParam("input") String input, HttpServletRequest request, Model model) {
-        if (request.getSession().getAttribute("user") == null)
-            return "redirect:/users/viewLogin";
+    public String searchProduct(@RequestParam("input") String input, Model model) {
 
         model.addAttribute("productList", productDao.getProductListBySearch(input));
 

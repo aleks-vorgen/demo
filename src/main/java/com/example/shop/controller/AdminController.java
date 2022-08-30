@@ -6,8 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -25,15 +23,8 @@ public class AdminController {
         this.userDao = userDao;
     }
 
-    private boolean isNoPermission(HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute("user");
-        return user == null || !user.isPermissions();
-    }
-
     @GetMapping("/viewAdminPanel")
-    public String viewAdminPanel(HttpServletRequest request, Model model) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String viewAdminPanel(Model model) {
 
         model.addAttribute("title", "Админ панель");
 
@@ -57,10 +48,7 @@ public class AdminController {
 
     /*----------Products----------*/
     @PostMapping("/addProduct")
-    public String addProduct(@ModelAttribute("newProduct") Product product,
-                             HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String addProduct(@ModelAttribute("newProduct") Product product) {
 
         productDao.insertProduct(new Product(product.getId(), null, product.getCategoryId(), product.getTitle(),
         product.getPrice(), product.getAmount(), product.getDescription(), product.getImgPath()));
@@ -69,9 +57,7 @@ public class AdminController {
     }
 
     @GetMapping("/viewProductEdit/{id}")
-    public String viewEditProduct(@PathVariable int id, HttpServletRequest request, Model model) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String viewEditProduct(@PathVariable int id, Model model) {
 
         model.addAttribute("title", "Редактирование продукта");
 
@@ -82,9 +68,7 @@ public class AdminController {
     }
 
     @PostMapping("/editProduct")
-    public String editProduct(@ModelAttribute("newProduct") Product product, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String editProduct(@ModelAttribute("newProduct") Product product) {
 
 
         productDao.updateProduct(product);
@@ -93,9 +77,7 @@ public class AdminController {
     }
 
     @GetMapping("/deleteProduct/{id}")
-    public String deleteProduct(@PathVariable int id, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String deleteProduct(@PathVariable int id) {
 
         productDao.deleteProduct(id);
 
@@ -104,10 +86,7 @@ public class AdminController {
 
     /*----------Categories----------*/
     @PostMapping("/addCategory")
-    public String addCategory(@ModelAttribute("newCategory") Category category,
-                             HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String addCategory(@ModelAttribute("newCategory") Category category) {
 
         categoryDao.insertCategory(new Category(category.getId(), null,
                 category.getParentCategoryId(), category.getTitle()));
@@ -116,9 +95,7 @@ public class AdminController {
     }
 
     @GetMapping("/viewCategoryEdit/{id}")
-    public String viewEditCategory(@PathVariable int id, HttpServletRequest request, Model model) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String viewEditCategory(@PathVariable int id, Model model) {
 
         model.addAttribute("title", "Редактирование категории");
 
@@ -129,9 +106,7 @@ public class AdminController {
     }
 
     @PostMapping("/editCategory")
-    public String editCategory(@ModelAttribute("newCategory") Category category, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String editCategory(@ModelAttribute("newCategory") Category category) {
 
         categoryDao.updateCategory(category);
 
@@ -139,9 +114,7 @@ public class AdminController {
     }
 
     @GetMapping("/deleteCategory/{id}")
-    public String deleteCategory(@PathVariable int id, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String deleteCategory(@PathVariable int id) {
 
         categoryDao.deleteCategory(id);
 
@@ -150,21 +123,16 @@ public class AdminController {
 
     /*----------Users----------*/
     @PostMapping("/addUser")
-    public String addUser(@ModelAttribute("newUser") User user,
-                              HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String addUser(@ModelAttribute("newUser") User user) {
 
         userDao.insertUser(new User(user.getId(), user.getUsername(),
-                user.getEmail(), user.getPassword(), user.isPermissions()));
+                user.getEmail(), user.getPassword(), user.getPermissions()));
 
         return "redirect:/admin/viewAdminPanel";
     }
 
     @GetMapping("/viewUserEdit/{id}")
-    public String viewEditUser(@PathVariable int id, HttpServletRequest request, Model model) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String viewEditUser(@PathVariable int id, Model model) {
 
         model.addAttribute("title", "Редактирование пользователя");
 
@@ -174,9 +142,7 @@ public class AdminController {
     }
 
     @PostMapping("/editUser")
-    public String editUser(@ModelAttribute("newUser") User user, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String editUser(@ModelAttribute("newUser") User user) {
 
         userDao.updateUser(user);
 
@@ -184,10 +150,8 @@ public class AdminController {
     }
 
     @GetMapping("/deleteUser/{id}")
-    public String deleteUser(@PathVariable int id, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
-
+    public String deleteUser(@PathVariable int id) {
+        
         userDao.deleteUser(id);
 
         return "redirect:/admin/viewAdminPanel";
@@ -195,10 +159,7 @@ public class AdminController {
 
     /*----------Orders----------*/
     @PostMapping("/addOrder")
-    public String addOrder(@ModelAttribute("newOrder") Order order,
-                          HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String addOrder(@ModelAttribute("newOrder") Order order) {
 
         orderDao.insertOrder(new Order(order.getId(),
                 null, order.getUserId(),
@@ -208,9 +169,7 @@ public class AdminController {
     }
 
     @GetMapping("/viewOrderEdit/{id}")
-    public String viewEditOrder(@PathVariable int id, HttpServletRequest request, Model model) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String viewEditOrder(@PathVariable int id, Model model) {
 
         model.addAttribute("title", "Редактирование заказа");
 
@@ -222,9 +181,7 @@ public class AdminController {
     }
 
     @PostMapping("/editOrder")
-    public String editOrder(@ModelAttribute("newOrder") Order order, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String editOrder(@ModelAttribute("newOrder") Order order) {
 
         orderDao.updateOrder(new Order(order.getId(),
                 null, order.getUserId(),
@@ -234,9 +191,7 @@ public class AdminController {
     }
 
     @GetMapping("/deleteOrder/{id}")
-    public String deleteOrder(@PathVariable int id, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String deleteOrder(@PathVariable int id) {
 
         orderDao.deleteOrder(id);
 
@@ -245,10 +200,7 @@ public class AdminController {
 
     /*----------Comments----------*/
     @PostMapping("/addComment")
-    public String addComment(@ModelAttribute("newComment") Comment comment,
-                           HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String addComment(@ModelAttribute("newComment") Comment comment) {
 
         commentDao.insertComment(new Comment(comment.getId(), null, comment.getUserId(), comment.getTitle(),
                 comment.getComment(), comment.getRating(), null, comment.getProductId()));
@@ -257,9 +209,7 @@ public class AdminController {
     }
 
     @GetMapping("/viewCommentEdit/{id}")
-    public String viewEditComment(@PathVariable int id, HttpServletRequest request, Model model) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String viewEditComment(@PathVariable int id, Model model) {
 
         model.addAttribute("title", "Редактирование комментария");
 
@@ -271,9 +221,7 @@ public class AdminController {
     }
 
     @PostMapping("/editComment")
-    public String editComment(@ModelAttribute("newComment") Comment comment, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String editComment(@ModelAttribute("newComment") Comment comment) {
 
         commentDao.updateComment(new Comment(comment.getId(),
                 null, comment.getUserId(),
@@ -284,9 +232,7 @@ public class AdminController {
     }
 
     @GetMapping("/deleteComment/{id}")
-    public String deleteComment(@PathVariable int id, HttpServletRequest request) {
-        if (isNoPermission(request))
-            return "redirect:/";
+    public String deleteComment(@PathVariable int id) {
 
         commentDao.deleteComment(id);
 

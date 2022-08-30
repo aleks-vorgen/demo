@@ -21,7 +21,7 @@ public class CommentMapper implements RowMapper<Comment> {
                 rs.getString("username"),
                 "hidden",
                 "hidden",
-                false
+                "hidden"
         ));
         comment.setTitle(rs.getString("title"));
         comment.setComment(rs.getString("comment"));
