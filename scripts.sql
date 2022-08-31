@@ -1,10 +1,12 @@
-CREATE TABLE lab3_ko_users (
+CREATE TABLE public.lab3_ko_users (
     id serial4 NOT NULL,
     username varchar(20) NOT NULL,
     email varchar(50) NOT NULL,
     "password" varchar(255) NOT NULL,
-    permissions bool NOT NULL DEFAULT false,
+    permissions varchar(10) NOT NULL DEFAULT 'ROLE_USER'::character varying,
+    active bool NOT NULL DEFAULT false,
     CONSTRAINT lab3_ko_users_email_unique UNIQUE (email),
+    CONSTRAINT lab3_ko_users_username_unique UNIQUE (username),
     CONSTRAINT lab3_ko_users_pkey PRIMARY KEY (id)
 );
 
@@ -50,7 +52,7 @@ CREATE TABLE lab3_ko_orders (
     CONSTRAINT lab3_ko_order_lists_user_id_fkey FOREIGN KEY (user_id) REFERENCES lab3_ko_users(id)
 );
 
-INSERT INTO lab3_ko_categories (parent_category_id,title) VALUES
+INSERT INTO lab3_ko_categories (parent_id,title) VALUES
     (NULL,'Фрукты'),
     (NULL,'Овощи'),
     (1,'Яблоки'),
@@ -65,12 +67,14 @@ INSERT INTO public.lab3_ko_products (category_id,title,price,amount,description,
     (3,'яблоки такие',30.00,20,'Вкусные яблочки','https://i.imgur.com/WiZH5rN.png');
 
 
-INSERT INTO lab3_ko_users (username,email,"password",permissions) VALUES
-    ('ALexus','test@gmail.com','test12',true);
+INSERT INTO public.lab3_ko_users (username,email,"password",permissions,active) VALUES
+    ('ALexus','test@gmail.com','test12','ROLE_ADMIN',true),
+    ('test12','123@gm.com','test12','ROLE_USER',true);
+
 
 INSERT INTO lab3_ko_orders (user_id,product_id) VALUES
-   (1,1),
-   (1,2);
+    (1,1),
+    (1,2);
 
 INSERT INTO lab3_ko_comments (user_id,title,"comment",rating,product_id) VALUES
     (1,NULL,'seq test',5,1),
