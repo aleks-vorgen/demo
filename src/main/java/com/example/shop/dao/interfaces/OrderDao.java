@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface OrderDao {
     List<Order> getOrderList();
+    List<Order> getOrderList(String username);
 
     Order getOrder(int id);
 
