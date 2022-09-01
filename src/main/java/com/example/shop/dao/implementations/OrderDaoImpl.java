@@ -18,6 +18,9 @@ public class OrderDaoImpl implements OrderDao {
             " JOIN lab3_ko_users u ON o.user_id = u.id" +
             " JOIN lab3_ko_products p ON o.product_id = p.id";
 
+    private static final String GET_ORDER_LIST_BY_USERNAME =
+            GET_ORDER_LIST + " WHERE u.username = ?";
+
     private static final String GET_ORDER =
             GET_ORDER_LIST + " WHERE o.id = ?";
 
@@ -45,6 +48,12 @@ public class OrderDaoImpl implements OrderDao {
 
         return jdbcTemplate.query(GET_ORDER_LIST,
                 new OrderMapper());
+    }
+
+    @Override
+    public List<Order> getOrderList(String username) {
+        return jdbcTemplate.query(GET_ORDER_LIST_BY_USERNAME,
+                new OrderMapper(), username);
     }
 
     @Override

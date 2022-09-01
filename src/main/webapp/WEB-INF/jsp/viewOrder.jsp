@@ -1,18 +1,15 @@
-<%@ page import="com.example.shop.model.User" %>
-<%@ page import="com.example.shop.model.Order" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <c:import url="header.jsp"/>
 
-<c:if test="${basket.size() == 0}">
+<c:if test="${basket.size() == 0 || basket == null}">
     <h3>Вы ничего не выбрали</h3>
 </c:if>
 
 <c:if test="${basket.size() > 0}">
     <form:form action="/orders/addOrder" modelAttribute="newOrder">
-        <form:input type="hidden" value="${user.id}" path="userId" />
         <c:forEach items="${basket}" var="order">
             <form:input type="hidden" value="${order.id}" path="productId"/>
             <div class="card mb-3" style="width: 100%">
