@@ -51,12 +51,6 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<Order> getOrderList(String username) {
-        return jdbcTemplate.query(GET_ORDER_LIST_BY_USERNAME,
-                new OrderMapper(), username);
-    }
-
-    @Override
     public Order getOrder(int id) {
         return jdbcTemplate.query(GET_ORDER,
                         new BeanPropertyRowMapper<>(Order.class), new Object[]{id})
